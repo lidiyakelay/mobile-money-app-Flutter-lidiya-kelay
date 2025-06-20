@@ -18,13 +18,27 @@ class _BankTransferFormScreenState extends State<BankTransferFormScreen> {
   final TextEditingController _descriptionController = TextEditingController();
 
   String? selectedBank;
-  final List<String> banks = [
+  final List<String> banks =[
     'Dashen Bank',
     'Awash Bank',
     'Abay Bank',
-    'CBE',
-    'Zemen Bank'
+    'Commercial Bank of Ethiopia (CBE)',
+    'Zemen Bank',
+    'Nib International Bank',
+    'Wegagen Bank',
+    'Bank of Abyssinia',
+    'United Bank (HIBRET)',
+    'Lion International Bank',
+    'Berhan Bank',
+    'Enat Bank',
+    'Bunna International Bank',
+    'Cooperative Bank of Oromia',
+    'Oromia International Bank',
+    'Debub Global Bank',
+    'Anbessa Bank',
+    'Goh Betoch Bank',
   ];
+
 
   @override
   void dispose() {
@@ -62,88 +76,90 @@ class _BankTransferFormScreenState extends State<BankTransferFormScreen> {
           onPressed: () => context.pop(),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                DropdownButtonFormField<String>(
-                  value: selectedBank,
-                  hint: const Text('Select Bank'),
-                  items: banks.map((bank) {
-                    return DropdownMenuItem(
-                      value: bank,
-                      child: Text(bank),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    setState(() => selectedBank = value);
-                  },
-                  validator: (value) =>
-                  value == null ? 'Please select a bank' : null,
-                ),
-                const SizedBox(height: 16),
-                TextFormField(
-                  controller: _accountNumberController,
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly,
-                  ],
-                  decoration: const InputDecoration(
-                    labelText: 'Bank Account Number',
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  DropdownButtonFormField<String>(
+                    value: selectedBank,
+                    hint: const Text('Select Bank'),
+                    items: banks.map((bank) {
+                      return DropdownMenuItem(
+                        value: bank,
+                        child: Text(bank),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() => selectedBank = value);
+                    },
+                    validator: (value) =>
+                    value == null ? 'Please select a bank' : null,
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Account number is required';
-                    }
-                    if (value.length < 6) {
-                      return 'Account number is too short';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16),
-                TextFormField(
-                  controller: _amountController,
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly,
-                  ],
-                  decoration: const InputDecoration(
-                    labelText: 'Amount (Birr)',
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    controller: _accountNumberController,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
+                    decoration: const InputDecoration(
+                      labelText: 'Bank Account Number',
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Account number is required';
+                      }
+                      if (value.length < 6) {
+                        return 'Account number is too short';
+                      }
+                      return null;
+                    },
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Amount is required';
-                    }
-                    final amount = int.tryParse(value);
-                    if (amount == null || amount < 25) {
-                      return 'Minimum amount is 25 Birr';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16),
-                TextFormField(
-                  controller: _descriptionController,
-                  maxLines: 2,
-                  maxLength: 100,
-                  decoration: const InputDecoration(
-                    labelText: 'Description (optional)',
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    controller: _amountController,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
+                    decoration: const InputDecoration(
+                      labelText: 'Amount (Birr)',
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Amount is required';
+                      }
+                      final amount = int.tryParse(value);
+                      if (amount == null || amount < 25) {
+                        return 'Minimum amount is 25 Birr';
+                      }
+                      return null;
+                    },
                   ),
-                ),
-                const SizedBox(height: 24),
-                SizedBox(
-                  width: double.infinity,
-                   child: PrimaryButton(
-                       label:'Continue', onPressed: (){
-                     _submitForm();
-                   }),
-                )
-              ],
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    controller: _descriptionController,
+                    maxLines: 2,
+                    maxLength: 100,
+                    decoration: const InputDecoration(
+                      labelText: 'Description (optional)',
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  SizedBox(
+                    width: double.infinity,
+                     child: PrimaryButton(
+                         label:'Continue', onPressed: (){
+                       _submitForm();
+                     }),
+                  )
+                ],
+              ),
             ),
           ),
         ),

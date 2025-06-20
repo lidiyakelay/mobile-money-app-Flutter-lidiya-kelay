@@ -28,24 +28,47 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
   }
 
   void onSubmit() {
+    const mockPin = '4321';
+
     if (pin.length == 4) {
-      showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-          title: const Text('Success'),
-          content: const Text('Money sent successfully!'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                context.push('/');
-              },
-              child: const Text('OK'),
-            ),
-          ],
+      if (pin == mockPin) {
+        showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: const Text('Success'),
+            content: const Text('Money sent successfully!'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  context.push('/') ;
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+      } else {
+        // Incorrect PIN
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Incorrect PIN. Please try again.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+        setState(() {
+          pin = ''; // Clear entered PIN
+        });
+      }
+    } else {
+      // PIN too short
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please enter a 4-digit PIN.'),
         ),
       );
     }
   }
+
 
   Widget buildPinDots() {
     return Row(
@@ -107,7 +130,7 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
             child: const Text('HA', style: TextStyle(color: Colors.blue),),
           ),
           Container(
-            margin: const EdgeInsets.all(16),
+            margin: const EdgeInsets.all(8),
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
